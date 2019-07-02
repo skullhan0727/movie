@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://127.0.0.1:5517/theater.Rmd -->
+<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  
+  <script type="application/shiny-singletons"></script>
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];shiny[1.3.2]</script>
+<script src="./theater.utf8_files/json2-min.js.下載"></script>
+<script src="./theater.utf8_files/jquery.min.js.下載"></script>
+<link href="./theater.utf8_files/shiny.css" rel="stylesheet">
+<script src="./theater.utf8_files/shiny.min.js.下載"></script>  <script src="./theater.utf8_files/rmd_loader.js.下載"></script>
+  <link href="./theater.utf8_files/rmd_loader.css" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" type="text/css" href="./theater.utf8_files/united.min.css"><script src="./theater.utf8_files/bootstrap.min.js.下載"></script><script src="./theater.utf8_files/html5shiv.min.js.下載"></script><script src="./theater.utf8_files/respond.min.js.下載"></script><script src="./theater.utf8_files/tabsets.js.下載"></script><link rel="stylesheet" type="text/css" href="./theater.utf8_files/default.css"><script src="./theater.utf8_files/highlight.js.下載"></script><link rel="stylesheet" type="text/css" href="./theater.utf8_files/rmd_perf.css"><script src="./theater.utf8_files/rmd_perf.js.下載"></script><meta name="rstudio_origin" content="127.0.0.1:24635"><script src="./theater.utf8_files/rsiframe.js.下載"></script>
+
+
+
+<meta name="generator" content="pandoc">
+
+
+
+
+<title>theater.utf8</title>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("section-TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script type="text/javascript" src="./theater.utf8_files/MathJax.js.下載"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+<body><div id="MathJax_Message" style="display: none;"></div>
+  <div>
+    <div data-display-if="!output.__reactivedoc__" data-ns-prefix="" style="display: none;">
+      <div id="rmd_loader_wrapper">
+        <div id="rmd_loader" style="">
+          <p>Please wait...</p>
+          <img src="./theater.utf8_files/rmd_loader.gif">
+        </div>
+      </div>
+    </div>
+    <div id="__reactivedoc__" class="shiny-html-output shiny-bound-output">
+
+
+
+
+
+
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="fluid-row" id="section-header">
+
+
+
+<h1 class="title toc-ignore"><center>
+<span style="font-family:Microsoft JhengHei;"><strong><font color="#9F88FF">蝦</font><font color="#00DDAA">趴</font><font color="#FF77FF">電</font><font color="#77DDFF">影</font><font color="#FFA488">院</font></strong></span>
+</center></h1>
+<h3 class="subtitle"><center>
+<span style="font-family:Microsoft JhengHei;"><font color="#4B0082"><strong>客製化評比 任君挑選</strong></font></span></center></h3>
+
+</div>
+
+<div id="section-TOC">
+<ul>
+<li><a href="http://127.0.0.1:5517/theater.Rmd#section-section"><span style="font-family:Microsoft JhengHei;">一、動機與目的：</span></a></li>
+<li><a href="http://127.0.0.1:5517/theater.Rmd#section-section-1"><span style="font-family:Microsoft JhengHei;">二、資料來源及資料前處理</span></a></li>
+<li><a href="http://127.0.0.1:5517/theater.Rmd#section-dashboard"><span style="font-family:Microsoft JhengHei;">三、Dashboard</span></a><ul>
+<li><a href="http://127.0.0.1:5517/theater.Rmd#section-tableau"><span style="font-family:Microsoft JhengHei;">1.Tableau儀表板</span></a></li>
+<li><a href="http://127.0.0.1:5517/theater.Rmd#section-shiny">2.<span style="font-family:Microsoft JhengHei;">Shiny</span></a></li>
+</ul></li>
+<li><a href="http://127.0.0.1:5517/theater.Rmd#section-section-2"><span style="font-family:Microsoft JhengHei;">四、結論：</span></a></li>
+<li><a href="http://127.0.0.1:5517/theater.Rmd#section-section-3"><span style="font-family:Microsoft JhengHei;">五、小組分工：</span></a></li>
+</ul>
+</div>
+
+<div id="section-section" class="section level2">
+<h2><span style="font-family:Microsoft JhengHei;">一、動機與目的：</span></h2>
+<p><span style="font-family:Microsoft JhengHei;"><font size="3"> 　　漫長的暑假即將到來，在這段時間裡，看電影是消磨時間的最佳選擇。但是，在眾多電影當中，又該如何選擇呢？<br>
+　　在這份報告中，我們依照一般人選擇電影的重要依據，像是電影類型、導演以及演員名等繪製了與收益、評分相關的圖表，讓觀眾能更有效率地篩選出有興趣的電影。<br>
+　　另外，為了讓觀眾更清楚地看出理想電影片單，我們也做了兩份圖表，分別是以關鍵字搜尋的電影列表，列出<strong>前五種</strong>受歡迎的電影類型當中最賣座的<strong>前三部</strong>影片列表。希望藉由這些結果，可以讓觀眾都能輕鬆找到理想的電影，度過充實的假期。 </font></span></p>
+</div>
+<div id="section-section-1" class="section level2">
+<h2><span style="font-family:Microsoft JhengHei;">二、資料來源及資料前處理</span></h2>
+<ol style="list-style-type: decimal">
+<li><span style="font-family:Microsoft JhengHei;">資料來源：(<a href="https://www.kaggle.com/orgesleka/imdbmovies" class="uri">https://www.kaggle.com/orgesleka/imdbmovies</a>)<br>我們從Kaggle找尋想分析的資料，再從中擷取2006年到2016年的電影資料。</span></li>
+<li><span style="font-family:Microsoft JhengHei;">資料前處理：</span></li>
+</ol>
+<ul>
+<li><span style="font-family:Microsoft JhengHei;">Jupyter分割資料：依據電影類型及演員，將一筆電影資料轉成多筆電影資料。<br>(<a href="https://github.com/skullhan0727/movie2/blob/master/wirte_csv.ipynb" class="uri">https://github.com/skullhan0727/movie2/blob/master/wirte_csv.ipynb</a>)</span></li>
+<li><span style="font-family:Microsoft JhengHei;">使用SPSS、Tableau試著找出個變數間的關係，再開始製作圖表。</span></li>
+</ul>
+</div>
+<div id="section-dashboard" class="section level2">
+<h2><span style="font-family:Microsoft JhengHei;">三、Dashboard</span></h2>
+<div id="section-tableau" class="section level3">
+<h3><span style="font-family:Microsoft JhengHei;">1.Tableau儀表板</span></h3>
+<ol style="list-style-type: lower-alpha">
+<li><ul>
+<li><span style="font-family:Microsoft JhengHei;">各電影類型總數</span></li>
+<li><span style="font-family:Microsoft JhengHei;">各電影類型總數趨勢</span></li>
+<li><span style="font-family:Microsoft JhengHei;">各導演平均收益</span></li>
+<li><span style="font-family:Microsoft JhengHei;">各種類電影平均收益</span></li>
+<li><span style="font-family:Microsoft JhengHei;">年度VS電影數量(長條圖）<br> 年度VS平均收益(折線圖）</span></li>
+</ul></li>
+</ol>
+<p><img src="./theater.utf8_files/4gplofr" alt="Tableau"> (<a href="https://public.tableau.com/profile/.78698827#!/vizhome/6380/1_1?publish=yes" class="uri">https://public.tableau.com/profile/.78698827#!/vizhome/6380/1_1?publish=yes</a>)</p>
+</div>
+<div id="section-shiny" class="section level3">
+<h3>2.<span style="font-family:Microsoft JhengHei;">Shiny</span></h3>
+<p><span style="font-family:Microsoft JhengHei;">暑假那麼長，要看什麼電影好？<br>
+三中願望，一次滿足<br> I. <font color="#AA0000">搜尋關鍵字</font>出現相關電影的列表<br>
+依照<code>年度、導演、演員</code>用下拉式列表搜尋自己想看的電影。<br> II. 尋找前五名電影的類型<font color="#AA0000">TOP3</font> <br>參考<code>各類型的前三名</code>尋找自己想看的電影。</span></p>
+<pre class="r"><code class="hljs"><span class="hljs-keyword">library</span>(readr)
+data= read_csv(<span class="hljs-string">"C:/Users/user/Desktop/IMDB-Movie-Data.csv"</span>)
+movie=read_csv(<span class="hljs-string">"D:/H24061210/sattistical software and drawing/genre.csv"</span>)
+
+<span class="hljs-comment">#-------------------</span>
+<span class="hljs-comment">#install.packages('DT')</span>
+<span class="hljs-comment">#install.packages("shinythemes")</span>
+<span class="hljs-keyword">library</span>(ggplot2)
+<span class="hljs-keyword">library</span>(shiny)
+<span class="hljs-keyword">library</span>(shinythemes)
+
+f=factor(movie$Genre)
+f=factor(movie$Genre,levels = names(table(f) [order(table(f) , decreasing = <span class="hljs-literal">TRUE</span>)]))
+
+  ui=navbarPage(
+    theme = shinytheme(<span class="hljs-string">"simplex"</span>),
+    navbarPage(<span class="hljs-string">"Movie!"</span>,
+              <span class="hljs-comment">#UI of search</span>
+               tabPanel(<span class="hljs-string">"Search"</span>,
+  titlePanel(<span class="hljs-string">"DataTable of Movie Rank"</span>),
+  fluidRow(
+    column(<span class="hljs-number">4</span>,
+           selectInput(<span class="hljs-string">"Year"</span>,
+                       <span class="hljs-string">"Year:"</span>,
+                       c(<span class="hljs-string">"All"</span>,
+                         unique(as.character(data$Year))))
+    ),
+    column(<span class="hljs-number">4</span>,
+           selectInput(<span class="hljs-string">"Director"</span>,
+                       <span class="hljs-string">"Director:"</span>,
+                       c(<span class="hljs-string">"All"</span>,
+                         unique(as.character(data$Director))))
+    ),
+    column(<span class="hljs-number">4</span>,
+           selectInput(<span class="hljs-string">"Actors"</span>,
+                       <span class="hljs-string">"Actors:"</span>,
+                       c(<span class="hljs-string">"All"</span>,
+                         unique(as.character(data$Actors))))
+    ),
+    DT::dataTableOutput(<span class="hljs-string">"table"</span>)
+  )),
+  
+  <span class="hljs-comment">#UI of TOP3</span>
+  tabPanel(<span class="hljs-string">"TOP3"</span>,
+    titlePanel(<span class="hljs-string">"DataTable of Movie Rank"</span>),
+           
+           <span class="hljs-comment"># Create a new Row in the UI for selectInputs</span>
+           fluidRow(
+             column(<span class="hljs-number">4</span>,
+                    selectInput(<span class="hljs-string">"Genre"</span>,
+                                <span class="hljs-string">"Genre:"</span>,
+                                levels(f))
+             ),
+             column(<span class="hljs-number">8</span>,
+                    imageOutput(<span class="hljs-string">"image"</span>, width = <span class="hljs-number">300</span>)
+             )))
+))
+
+  
+  server=<span class="hljs-keyword">function</span>(input, output) {
+  
+  <span class="hljs-comment"># Server of search</span>
+  output$table &lt;- DT::renderDataTable(DT::datatable({
+
+    <span class="hljs-keyword">if</span> (input$Year != <span class="hljs-string">"All"</span>) {
+      data &lt;- data[data$Year == input$Year,]
+    }
+    <span class="hljs-keyword">if</span> (input$Director != <span class="hljs-string">"All"</span>) {
+      data &lt;- data[data$Director == input$Director,]
+    }
+    <span class="hljs-keyword">if</span> (input$Actors != <span class="hljs-string">"All"</span>) {
+      data &lt;- data[data$Actors == input$Actors,]
+    }
+    data
+  }))
+  
+  <span class="hljs-comment"># Server of TOP3</span>
+  output$image &lt;- renderImage({
+    
+    <span class="hljs-keyword">if</span> (input$Genre==<span class="hljs-string">"Drama"</span>) {
+      <span class="hljs-keyword">return</span>(list(
+        src = <span class="hljs-string">"C:/Users/user/Desktop/image/01.png"</span>,
+        contentType = <span class="hljs-string">"image/png"</span>
+      ))
+    }
+    
+    <span class="hljs-keyword">if</span> (input$Genre==<span class="hljs-string">"Adventure"</span>) {
+      <span class="hljs-keyword">return</span>(list(
+        src = <span class="hljs-string">"C:/Users/user/Desktop/image/02.png"</span>,
+        contentType = <span class="hljs-string">"image/png"</span>
+      ))
+    } 
+    
+    <span class="hljs-keyword">if</span> (input$Genre==<span class="hljs-string">"Action"</span>) {
+      <span class="hljs-keyword">return</span>(list(
+        src = <span class="hljs-string">"C:/Users/user/Desktop/image/03.png"</span>,
+        contentType = <span class="hljs-string">"image/png"</span>
+      ))
+    }
+    
+    <span class="hljs-keyword">if</span> (input$Genre==<span class="hljs-string">"Thriller"</span>) {
+      <span class="hljs-keyword">return</span>(list(
+        src = <span class="hljs-string">"C:/Users/user/Desktop/image/04.png"</span>,
+        contentType = <span class="hljs-string">"image/png"</span>
+      ))
+    }
+    
+    <span class="hljs-keyword">if</span> (input$Genre==<span class="hljs-string">"Comedy"</span>) {
+      <span class="hljs-keyword">return</span>(list(
+        src = <span class="hljs-string">"C:/Users/user/Desktop/image/05.png"</span>,
+        contentType = <span class="hljs-string">"image/png"</span>
+      ))
+    }
+    <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span>(list(
+        src = <span class="hljs-string">"C:/Users/user/Desktop/image/06.png"</span>,
+        contentType = <span class="hljs-string">"image/png"</span>
+      ))
+    }
+  },deleteFile = <span class="hljs-literal">FALSE</span>)
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<p><a href="http://127.0.0.1:3905/">SHINY_GOGO!</a></p>
+</div>
+</div>
+<div id="section-section-2" class="section level2">
+<h2><span style="font-family:Microsoft JhengHei;">四、結論：</span></h2>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><span style="font-family:Microsoft JhengHei;">Drama,Action,Comedy這三種電影類型較<font color="#AA0000">大眾化</font>
+<table>
+<tbody><tr>
+<td bgcolor="#E6E6FA">
+&gt;&gt;這三種類型電影的平均評分為前三名。
+</td>
+</tr>
+</tbody></table></span></li>
+<li><span style="font-family:Microsoft JhengHei;">每種電影類型數量皆上升，可以看出電影<font color="#AA0000">產業興盛</font>，尤其Drama 在2015 後急遽上升。</span></li>
+<li><span style="font-family:Microsoft JhengHei;">詹姆斯卡麥隆為平均收益最高的導演，曾為阿凡達、鐵達尼號等電影擔任導演；<br>第二名：柯林崔佛洛(EX.侏儸紀世界)；<br>第三名：喬斯溫登(EX.復仇者1,2)。</span></li>
+<li><span style="font-family:Microsoft JhengHei;">動畫片平均收益最高。<br>
+<table>
+<tbody><tr>
+<td bgcolor="#E6E6FA">
+&gt;&gt;因為觸及的年齡層較廣，例如：小孩想看，爸媽就會帶他們一起去看。
+</td>
+</tr>
+</tbody></table></span></li>
+<li><span style="font-family:Microsoft JhengHei;">雖然電影產業興盛，每年總收益上升，但因為電影數目日益增加，競爭力變大，造成每年平均收益下降。</span></li>
+</ol>
+</blockquote>
+</div>
+<div id="section-section-3" class="section level2">
+<h2><span style="font-family:Microsoft JhengHei;">五、小組分工：</span></h2>
+<blockquote>
+<p><span style="font-family:Microsoft JhengHei;">林佳霈: Shiny code 、口頭報告<br>羅苡晅:資料收集、口頭報告<br>郭儀芊:動機與目的<br>劉家君:R markdown<br>張孟涵:Shiny、Jupyter分割資料<br>周義興:tableau、資料蒐集</span></p>
+</blockquote>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+</div>
+  </div>
+
+
+
+</body></html>

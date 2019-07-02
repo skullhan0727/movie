@@ -1,0 +1,186 @@
+---
+title: '<center><span style="font-family:Microsoft JhengHei;">**<font color=#9F88FF>蝦</font><font color=#00DDAA>趴</font><font color=#FF77FF>電</font><font color=#77DDFF>影</font><font color=#FFA488>院</font>**</span></center>'
+subtitle: '<center><span style="font-family:Microsoft JhengHei;"><font color=#4B0082>**客製化評比 任君挑選**</font></span></cneter>'
+output: 
+  html_document:
+    toc: true
+    theme: united
+runtime: shiny
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## <span style="font-family:Microsoft JhengHei;">一、動機與目的：</span> 
+<span style="font-family:Microsoft JhengHei;"><font size="3">
+　　漫長的暑假即將到來，在這段時間裡，看電影是消磨時間的最佳選擇。但是，在眾多電影當中，又該如何選擇呢？   
+　　在這份報告中，我們依照一般人選擇電影的重要依據，像是電影類型、導演以及演員名等繪製了與收益、評分相關的圖表，讓觀眾能更有效率地篩選出有興趣的電影。  
+　　另外，為了讓觀眾更清楚地看出理想電影片單，我們也做了兩份圖表，分別是以關鍵字搜尋的電影列表，列出**前五種**受歡迎的電影類型當中最賣座的**前三部**影片列表。希望藉由這些結果，可以讓觀眾都能輕鬆找到理想的電影，度過充實的假期。 </font></span>
+
+## <span style="font-family:Microsoft JhengHei;">二、資料來源及資料前處理</span>
+
+1. <span style="font-family:Microsoft JhengHei;">資料來源：(https://www.kaggle.com/orgesleka/imdbmovies)<br>我們從Kaggle找尋想分析的資料，再從中擷取2006年到2016年的電影資料。
+2. <span style="font-family:Microsoft JhengHei;">資料前處理：
+* <span style="font-family:Microsoft JhengHei;">Jupyter分割資料：依據電影類型及演員，將一筆電影資料轉成多筆電影資料。<br>(https://github.com/skullhan0727/movie2/blob/master/wirte_csv.ipynb)
+* <span style="font-family:Microsoft JhengHei;">使用SPSS、Tableau試著找出個變數間的關係，再開始製作圖表。</span>
+
+## <span style="font-family:Microsoft JhengHei;">三、Dashboard</span>
+
+### <span style="font-family:Microsoft JhengHei;">1.Tableau儀表板</span>
+a. 
+    - <span style="font-family:Microsoft JhengHei;">各電影類型總數
+    - <span style="font-family:Microsoft JhengHei;">各電影類型總數趨勢
+    - <span style="font-family:Microsoft JhengHei;">各導演平均收益
+    - <span style="font-family:Microsoft JhengHei;">各種類電影平均收益
+    - <span style="font-family:Microsoft JhengHei;">年度VS電影數量(長條圖）<br>
+年度VS平均收益(折線圖）</span>
+
+![Tableau](https://i.screenshot.net/4gplofr)
+(https://public.tableau.com/profile/.78698827#!/vizhome/6380/1_1?publish=yes)
+
+### 2.<span style="font-family:Microsoft JhengHei;">Shiny</span>  
+<span style="font-family:Microsoft JhengHei;">暑假那麼長，要看什麼電影好？  
+三中願望，一次滿足<br> 
+I. <font color=#AA0000>搜尋關鍵字</font>出現相關電影的列表  
+依照`年度、導演、演員`用下拉式列表搜尋自己想看的電影。<br>
+II. 尋找前五名電影的類型<font color=#AA0000>TOP3</font> <br>參考`各類型的前三名`尋找自己想看的電影。</span> 
+```{r,eval=FALSE}
+library(readr)
+data= read_csv("C:/Users/user/Desktop/IMDB-Movie-Data.csv")
+movie=read_csv("D:/H24061210/sattistical software and drawing/genre.csv")
+
+#-------------------
+#install.packages('DT')
+#install.packages("shinythemes")
+library(ggplot2)
+library(shiny)
+library(shinythemes)
+
+f=factor(movie$Genre)
+f=factor(movie$Genre,levels = names(table(f) [order(table(f) , decreasing = TRUE)]))
+
+  ui=navbarPage(
+    theme = shinytheme("simplex"),
+    navbarPage("Movie!",
+              #UI of search
+               tabPanel("Search",
+  titlePanel("DataTable of Movie Rank"),
+  fluidRow(
+    column(4,
+           selectInput("Year",
+                       "Year:",
+                       c("All",
+                         unique(as.character(data$Year))))
+    ),
+    column(4,
+           selectInput("Director",
+                       "Director:",
+                       c("All",
+                         unique(as.character(data$Director))))
+    ),
+    column(4,
+           selectInput("Actors",
+                       "Actors:",
+                       c("All",
+                         unique(as.character(data$Actors))))
+    ),
+    DT::dataTableOutput("table")
+  )),
+  
+  #UI of TOP3
+  tabPanel("TOP3",
+    titlePanel("DataTable of Movie Rank"),
+           
+           # Create a new Row in the UI for selectInputs
+           fluidRow(
+             column(4,
+                    selectInput("Genre",
+                                "Genre:",
+                                levels(f))
+             ),
+             column(8,
+                    imageOutput("image", width = 300)
+             )))
+))
+
+  
+  server=function(input, output) {
+  
+  # Server of search
+  output$table <- DT::renderDataTable(DT::datatable({
+
+    if (input$Year != "All") {
+      data <- data[data$Year == input$Year,]
+    }
+    if (input$Director != "All") {
+      data <- data[data$Director == input$Director,]
+    }
+    if (input$Actors != "All") {
+      data <- data[data$Actors == input$Actors,]
+    }
+    data
+  }))
+  
+  # Server of TOP3
+  output$image <- renderImage({
+    
+    if (input$Genre=="Drama") {
+      return(list(
+        src = "C:/Users/user/Desktop/image/01.png",
+        contentType = "image/png"
+      ))
+    }
+    
+    if (input$Genre=="Adventure") {
+      return(list(
+        src = "C:/Users/user/Desktop/image/02.png",
+        contentType = "image/png"
+      ))
+    } 
+    
+    if (input$Genre=="Action") {
+      return(list(
+        src = "C:/Users/user/Desktop/image/03.png",
+        contentType = "image/png"
+      ))
+    }
+    
+    if (input$Genre=="Thriller") {
+      return(list(
+        src = "C:/Users/user/Desktop/image/04.png",
+        contentType = "image/png"
+      ))
+    }
+    
+    if (input$Genre=="Comedy") {
+      return(list(
+        src = "C:/Users/user/Desktop/image/05.png",
+        contentType = "image/png"
+      ))
+    }
+    else {
+      return(list(
+        src = "C:/Users/user/Desktop/image/06.png",
+        contentType = "image/png"
+      ))
+    }
+  },deleteFile = FALSE)
+}
+
+shinyApp(ui = ui, server = server)
+
+
+```
+
+[SHINY_GOGO!](http://127.0.0.1:3905/)
+
+## <span style="font-family:Microsoft JhengHei;">四、結論：</span>  
+>1. <span style="font-family:Microsoft JhengHei;">Drama,Action,Comedy這三種電影類型較<font color=#AA0000>大眾化</font> 
+<table><tr><td bgcolor=#E6E6FA>\>>這三種類型電影的平均評分為前三名。</td></tr></table>  
+2. <span style="font-family:Microsoft JhengHei;">每種電影類型數量皆上升，可以看出電影<font color=#AA0000>產業興盛</font>，尤其Drama 在2015 後急遽上升。
+3. <span style="font-family:Microsoft JhengHei;">詹姆斯卡麥隆為平均收益最高的導演，曾為阿凡達、鐵達尼號等電影擔任導演；<br>第二名：柯林崔佛洛(EX.侏儸紀世界)；<br>第三名：喬斯溫登(EX.復仇者1,2)。
+4. <span style="font-family:Microsoft JhengHei;">動畫片平均收益最高。<br><table><tr><td bgcolor=#E6E6FA>\>>因為觸及的年齡層較廣，例如：小孩想看，爸媽就會帶他們一起去看。</td></tr></table>
+5. <span style="font-family:Microsoft JhengHei;">雖然電影產業興盛，每年總收益上升，但因為電影數目日益增加，競爭力變大，造成每年平均收益下降。</span>
+
+## <span style="font-family:Microsoft JhengHei;">五、小組分工：</span>
+><span style="font-family:Microsoft JhengHei;">林佳霈: Shiny code 、口頭報告<br>羅苡晅:資料收集、口頭報告<br>郭儀芊:動機與目的<br>劉家君:R markdown<br>張孟涵:Shiny、Jupyter分割資料<br>周義興:tableau、資料蒐集</span>
